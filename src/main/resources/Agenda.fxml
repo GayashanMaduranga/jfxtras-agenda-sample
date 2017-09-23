@@ -10,8 +10,8 @@
 
 <AnchorPane prefHeight="646.0" prefWidth="1071.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AgendaController">
    <children>
-      <Agenda fx:id="agenda" layoutX="-62.0" layoutY="118.0" prefHeight="554.0" prefWidth="717.0" scaleX="0.8" scaleY="0.8" />
-      <CalendarPicker fx:id="calander" layoutX="703.0" layoutY="14.0" />
+      <Agenda fx:id="agenda" layoutX="-50.0" layoutY="119.0" prefHeight="553.0" prefWidth="702.0" scaleX="0.8" scaleY="0.8" />
+      <CalendarPicker fx:id="calander" layoutX="703.0" layoutY="14.0" onMouseClicked="#calanderButtonSelected" />
       <LocalTimeTextField fx:id="startTime" layoutX="801.0" layoutY="331.0" prefHeight="31.0" prefWidth="208.0" promptText="Start time" />
       <Label layoutX="637.0" layoutY="331.0" prefHeight="31.0" prefWidth="103.0" text="Start time" />
       <Label layoutX="637.0" layoutY="402.0" prefHeight="31.0" prefWidth="103.0" text="End time" />

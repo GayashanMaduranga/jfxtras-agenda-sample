@@ -10,7 +10,6 @@
         <property name="connection.password"></property>
         <property name="hbm2ddl.auto">create</property>
         <mapping class="AppointmentEntity"/>
-        <mapping class="Student"/>
 
         <!-- <property name="connection.username"/> -->
         <!-- <property name="connection.password"/> -->
