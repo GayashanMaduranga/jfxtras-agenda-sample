@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import jfxtras.scene.control.CalendarPicker?>
+<?import jfxtras.scene.control.LocalTimeTextField?>
 <?import jfxtras.scene.control.agenda.Agenda?>
 
-
-<AnchorPane prefHeight="646.0" prefWidth="1071.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AgendaController">
+<AnchorPane prefHeight="646.0" prefWidth="1071.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AgendaController">
    <children>
-      <Agenda fx:id="agenda" layoutX="-62.0" layoutY="118.0" prefHeight="439.0" prefWidth="764.0" scaleX="0.8" scaleY="0.8" />
-      <CalendarPicker layoutX="703.0" layoutY="14.0" />
+      <Agenda fx:id="agenda" layoutX="-62.0" layoutY="118.0" prefHeight="554.0" prefWidth="717.0" scaleX="0.8" scaleY="0.8" />
+      <CalendarPicker fx:id="calander" layoutX="703.0" layoutY="14.0" />
+      <LocalTimeTextField fx:id="startTime" layoutX="801.0" layoutY="331.0" prefHeight="31.0" prefWidth="208.0" promptText="Start time" />
+      <Label layoutX="637.0" layoutY="331.0" prefHeight="31.0" prefWidth="103.0" text="Start time" />
+      <Label layoutX="637.0" layoutY="402.0" prefHeight="31.0" prefWidth="103.0" text="End time" />
+      <LocalTimeTextField fx:id="endTime" layoutX="801.0" layoutY="402.0" prefHeight="31.0" prefWidth="208.0" promptText="End Time" />
+      <TextArea fx:id="desctiption" layoutX="805.0" layoutY="447.0" prefHeight="139.0" prefWidth="186.0" />
+      <Label layoutX="637.0" layoutY="475.0" prefHeight="31.0" prefWidth="103.0" text="Description" />
+      <Button layoutX="665.0" layoutY="617.0" mnemonicParsing="false" onAction="#addAppointment" styleClass="add-button" text="Add" />
+      <Button layoutX="771.0" layoutY="617.0" mnemonicParsing="false" onAction="#updateAppointment" styleClass="update-button" text="Update" />
+      <Button layoutX="898.0" layoutY="617.0" mnemonicParsing="false" onAction="#deleteAppointment" styleClass="delete-button" text="Delete" />
    </children>
 </AnchorPane>

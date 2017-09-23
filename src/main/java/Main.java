@@ -30,7 +30,7 @@ public class Main extends Application {
             primaryStage.setMinWidth(1299.0);
             primaryStage.show();
         } catch (IOException ex) {
-//            Logger.getLogger(StoreKeeper.class.getName()).log(Level.SEVERE, null, ex);
+
             ex.printStackTrace();
         }
 

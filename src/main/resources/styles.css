@@ -1,0 +1,29 @@
+.Agenda{
+    -fx-background-color: #5e4aed
+}
+
+.group1{
+    -fx-background-color: #465e87
+}
+
+
+.toggle-button {
+    -fx-base: aqua;
+}
+
+.ListSpinner{
+    -fx-base: aqua;
+}
+
+.add-button{
+    -fx-base:green;
+}
+
+.update-button{
+    -fx-base:orange;
+}
+
+.delete-button{
+    -fx-base:red;
+}
+
