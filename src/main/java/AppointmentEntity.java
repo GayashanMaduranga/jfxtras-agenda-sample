@@ -11,9 +11,9 @@ public class AppointmentEntity {
 
     @Id
     @GeneratedValue
-    int id;
-    Timestamp startTime;
-    Timestamp endTime;
+    private int id;
+    private Timestamp startTime;
+    private Timestamp endTime;
 
     String description;
 

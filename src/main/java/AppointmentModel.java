@@ -44,24 +44,37 @@ public class AppointmentModel {
         return results;
     }
 
-    public List<Agenda.AppointmentImplLocal> getAppointments(LocalDateTime startTime,LocalDateTime endTime){
+    public List<Appointment> getAppointments(LocalDateTime startTime,LocalDateTime endTime){
         List<AppointmentEntity> entityList =getAppointmentEntities(startTime,endTime);
-        List<Agenda.AppointmentImplLocal> appointmentList = new ArrayList<>();
+        List<Appointment> appointmentList = new ArrayList<>();
 
 
 
         for(AppointmentEntity entity:entityList){
 
-            Agenda.AppointmentImplLocal appointmentImplLocal= new Agenda.AppointmentImplLocal()
+            Agenda.AppointmentImplLocal appointmentImplLocal= new Appointment()
                     .withStartLocalDateTime(entity.getStartTime().toLocalDateTime())
                     .withEndLocalDateTime(entity.getEndTime().toLocalDateTime())
                     .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group1"));
             appointmentImplLocal.setDescription(entity.getDescription());
-            appointmentList.add(appointmentImplLocal);
+
+            Appointment appointment = (Appointment)appointmentImplLocal;
+            appointment.setId(entity.getId());
+            appointmentList.add(appointment);
 
 
         }
 
         return appointmentList;
+    }
+
+
+    public void deleteAppointment(int id){
+
+        AppointmentEntity entity = (AppointmentEntity)session.get(AppointmentEntity.class,id);
+
+        session.beginTransaction();
+        session.delete(entity);
+        session.getTransaction().commit();
     }
 }

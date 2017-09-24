@@ -33,6 +33,8 @@ public class AgendaController implements Initializable {
     @FXML
     private TextArea desctiption;
 
+    private Appointment selectedAppointment;
+
 //    private List<> ;
 
     @FXML
@@ -42,7 +44,7 @@ public class AgendaController implements Initializable {
         Date selected = calander.getCalendar().getTime();
         LocalDate date = selected.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-        Agenda.AppointmentImplLocal newAppointment = new Agenda.AppointmentImplLocal()
+        Agenda.AppointmentImplLocal newAppointment = new Appointment()
                 .withStartLocalDateTime(startTime.getLocalTime().atDate(date))
                 .withEndLocalDateTime(endTime.getLocalTime().atDate(date))
                 .withDescription(desctiption.getText())
@@ -57,11 +59,16 @@ public class AgendaController implements Initializable {
     @FXML
     void deleteAppointment(ActionEvent event) {
 
+        appointmentModel.deleteAppointment(selectedAppointment.getId());
+        updateAgenda();
+        agenda.refresh();
 
     }
 
     @FXML
     void updateAppointment(ActionEvent event) {
+
+        System.out.println(selectedAppointment.getId());
 
     }
 
@@ -87,7 +94,7 @@ public class AgendaController implements Initializable {
         agenda.localDateTimeRangeCallbackProperty().set(param -> {
 
 
-            List<Agenda.AppointmentImplLocal> list = appointmentModel.getAppointments(param.getStartLocalDateTime(), param.getEndLocalDateTime());
+            List<Appointment> list = appointmentModel.getAppointments(param.getStartLocalDateTime(), param.getEndLocalDateTime());
             agenda.appointments().clear();
             agenda.appointments().addAll(list);
                     return null;
@@ -130,51 +137,44 @@ public class AgendaController implements Initializable {
 
 
         });
-//
-//        agenda.appointmentChangedCallbackProperty().set(param ->{
-//
-//
-//
-//            if(!agenda.appointments().contains(param))
-//                System.out.println("Deleted change");
-//
-//                    if(param!=null) {
-//                        System.out.println("Triggerd");
-//                        System.out.println(param.getStartLocalDateTime().toLocalDate().toString());
-//                    }else {
-//                        System.out.println("deleted");
-//                    }
-//                    return null;
-//                }
-//        );
 
+        agenda.appointmentChangedCallbackProperty().set(param ->{
 
-//        agenda.actionCallbackProperty().set(param ->
-//                {
-//                    System.out.println("OK");
+            System.out.println("change");
+
+            if(!agenda.appointments().contains(param))
+                System.out.println("Deleted change");
+
+                    if(param!=null) {
+                        System.out.println("Triggerd");
+                        System.out.println(param.getStartLocalDateTime().toLocalDate().toString());
+                    }else {
+                        System.out.println("deleted");
+                    }
+                    return null;
+                }
+        );
 //
-//                    if(!agenda.appointments().contains(param))
-//                        System.out.println("Deleted");
 //
-//
-//
-//
-//                    agenda.selectedAppointments().remove(agenda.actionCallbackProperty());
-//                    agenda.refresh();
-//                    return null;
-//                }
-//        );
+        agenda.actionCallbackProperty().set(param ->
+                {
+                    selectedAppointment = (Appointment)param;
+                    startTime.setLocalTime(selectedAppointment.getStartLocalDateTime().toLocalTime());
+                    endTime.setLocalTime(selectedAppointment.getEndLocalDateTime().toLocalTime());
+                    desctiption.setText(selectedAppointment.getDescription());
+                    return null;
+                }
+        );
 //
 //        Callback<Agenda.Appointment, Void> callback = agenda.getEditAppointmentCallback();
 
-//        agenda.editAppointmentCallbackProperty().set(new Callback<Agenda.Appointment, Void>() {
-//            @Override
-//            public Void call(Agenda.Appointment param) {
+
+
+//        agenda.editAppointmentCallbackProperty().set(param ->{
 //
-//
-//                return callback.call(param);
-//            }
-//        });
+//            System.out.println("Edit");
+//            return null;
+//        } );
 
 //        agenda.editAppointmentCallbackProperty().addListener(new ChangeListener<Callback<Agenda.Appointment, Void>>() {
 //            @Override
