@@ -77,4 +77,31 @@ public class AppointmentModel {
         session.delete(entity);
         session.getTransaction().commit();
     }
+
+
+    public void updateAppointment(Appointment newAppointment) {
+
+        AppointmentEntity entity = (AppointmentEntity)session.get(AppointmentEntity.class,newAppointment.getId());
+
+        entity.setStartTime(Timestamp.valueOf(newAppointment.getStartLocalDateTime()));
+        entity.setEndTime(Timestamp.valueOf(newAppointment.getEndLocalDateTime()));
+        entity.setDescription(newAppointment.getDescription());
+
+       if(entity==null)
+           System.out.println("NULL");
+       else{
+           System.out.println(entity.getId() + entity.getStartTime().toLocalDateTime().toLocalDate().toString());
+       }
+           System.out.println(newAppointment.toString());
+
+       try {
+           session.beginTransaction();
+           session.update(entity);
+           session.getTransaction().commit();
+       }catch (Exception e){
+           e.printStackTrace();
+       }
+
+
+    }
 }

@@ -67,8 +67,22 @@ public class AgendaController implements Initializable {
 
     @FXML
     void updateAppointment(ActionEvent event) {
+        Date selected;
+        if( calander.getCalendar()==null){
 
-        System.out.println(selectedAppointment.getId());
+            selected = Date.from(selectedAppointment.getStartLocalDateTime().toLocalDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+            System.out.println("NULL");
+        }else {
+            selected = calander.getCalendar().getTime();
+        }
+        LocalDate date = selected.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        selectedAppointment.setStartLocalDateTime(startTime.getLocalTime().atDate(date));
+        selectedAppointment.setEndLocalDateTime(endTime.getLocalTime().atDate(date));
+        selectedAppointment.setDescription(desctiption.getText());
+        appointmentModel.updateAppointment(selectedAppointment);
+        updateAgenda();
+        agenda.refresh();
 
     }
 
@@ -90,7 +104,7 @@ public class AgendaController implements Initializable {
     }
 
     private void updateAgenda(){
-
+        //System.out.println("UP");
         agenda.localDateTimeRangeCallbackProperty().set(param -> {
 
 
