@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.scene.control.TextArea;
 import jfxtras.scene.control.CalendarPicker;
@@ -178,7 +179,22 @@ public class AgendaController implements Initializable{
                 agenda.localDateTimeRangeCallbackProperty().set(param ->{
 
 
-                            System.out.println(param.getStartLocalDateTime().toLocalDate().toString());
+                            List<AppointmentEntity> entityList =appointmentModel.getAppointments(param.getStartLocalDateTime(),param.getEndLocalDateTime());
+
+                            agenda.appointments().clear();
+
+                            for(AppointmentEntity entity:entityList){
+
+                                Agenda.AppointmentImplLocal appointmentImplLocal= new Agenda.AppointmentImplLocal()
+                                        .withStartLocalDateTime(entity.getStartTime().toLocalDateTime())
+                                        .withEndLocalDateTime(entity.getEndTime().toLocalDateTime())
+                                        .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group1"));
+                                appointmentImplLocal.setDescription(entity.getDescription());
+
+                                agenda.appointments().add(appointmentImplLocal);
+
+                            }
+
 
                             return null;
                 }
