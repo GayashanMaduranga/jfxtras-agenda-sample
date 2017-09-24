@@ -69,10 +69,8 @@ public class AgendaController implements Initializable {
     void updateAppointment(ActionEvent event) {
         Date selected;
         if( calander.getCalendar()==null){
-
             selected = Date.from(selectedAppointment.getStartLocalDateTime().toLocalDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-            System.out.println("NULL");
         }else {
             selected = calander.getCalendar().getTime();
         }
@@ -84,22 +82,14 @@ public class AgendaController implements Initializable {
         updateAgenda();
         agenda.refresh();
 
+
+
     }
 
 
-    private void updateAppointment(Agenda.AppointmentImplLocal newAppointment) {
+    private void updateAppointment() {
 
-//        AppointmentEntity appointmentEntity ;
-//        appointmentEntity.setStartTime(Timestamp.valueOf(newAppointment.getStartLocalDateTime()));
-//        appointmentEntity.setEndTime(Timestamp.valueOf(newAppointment.getEndLocalDateTime()));
-//        appointmentEntity.setDescription(newAppointment.getDescription());
-//
-//
-//        agenda.appointments().add(newAppointment);
-//
-//        session.beginTransaction();
-//        session.update(appointmentEntity);
-//        session.getTransaction().commit();
+
 
     }
 
@@ -121,7 +111,13 @@ public class AgendaController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        updateAgenda();
+        try {
+            updateAgenda();
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+
         agenda.setAllowDragging(true);
         agenda.setAllowResize(true);
         agenda.newAppointmentCallbackProperty().set((localDateTimeRange) -> {
@@ -154,21 +150,13 @@ public class AgendaController implements Initializable {
 
         agenda.appointmentChangedCallbackProperty().set(param ->{
 
-            System.out.println("change");
 
-            if(!agenda.appointments().contains(param))
-                System.out.println("Deleted change");
-
-                    if(param!=null) {
-                        System.out.println("Triggerd");
-                        System.out.println(param.getStartLocalDateTime().toLocalDate().toString());
-                    }else {
-                        System.out.println("deleted");
-                    }
+                    appointmentModel.updateAppointment((Appointment)param);
                     return null;
                 }
         );
 //
+
 //
         agenda.actionCallbackProperty().set(param ->
                 {

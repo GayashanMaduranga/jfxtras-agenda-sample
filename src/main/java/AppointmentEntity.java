@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Access(AccessType.FIELD)
+@Table(name = "Appointment")
 public class AppointmentEntity {
 
     @Id
