@@ -1,10 +1,8 @@
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import jfxtras.scene.control.agenda.Agenda;
-
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,7 +11,6 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import javafx.scene.control.TextArea;
 import jfxtras.scene.control.CalendarPicker;
 import jfxtras.scene.control.LocalTimeTextField;
@@ -85,24 +82,25 @@ public class AgendaController implements Initializable {
 
     }
 
+    private void updateAgenda(){
 
+        agenda.localDateTimeRangeCallbackProperty().set(param -> {
+
+
+            List<Agenda.AppointmentImplLocal> list = appointmentModel.getAppointments(param.getStartLocalDateTime(), param.getEndLocalDateTime());
+            agenda.appointments().clear();
+            agenda.appointments().addAll(list);
+                    return null;
+                }
+
+        );
+
+
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        agenda.appointments().addAll(
-//                new Agenda.AppointmentImplLocal()
-//                        .withStartLocalDateTime(LocalDate.now().atTime(4, 00))
-//                        .withEndLocalDateTime(LocalDate.now().atTime(15, 30))
-//                        .withDescription("It's time")
-//                        .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group1")) // you should use a map of AppointmentGroups
-//        );
 
-
-//        calander.getChildrenUnmodifiable().forEach(node -> node.setOnMouseClicked(event -> {
-//
-//            System.out.println("OK 234234");
-//        }));
-
-
+        updateAgenda();
         agenda.setAllowDragging(true);
         agenda.setAllowResize(true);
         agenda.newAppointmentCallbackProperty().set((localDateTimeRange) -> {
@@ -121,27 +119,14 @@ public class AgendaController implements Initializable {
 
         calander.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
 
-
             Date cal = calander.getCalendar().getTime();
             LocalDate ld = cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
 
             LocalTime lt = LocalTime.NOON;
 
             agenda.setDisplayedLocalDateTime(LocalDateTime.of(ld, lt));
-            System.out.println(agenda.getDisplayedLocalDateTime().toLocalDate().toString());
 
-
-            agenda.localDateTimeRangeCallbackProperty().set(param -> {
-
-                        List<Agenda.AppointmentImplLocal> list = appointmentModel.getAppointments(param.getStartLocalDateTime(), param.getEndLocalDateTime());
-                        agenda.appointments().clear();
-                        agenda.appointments().addAll(list);
-
-                        return null;
-                    }
-
-            );
+            updateAgenda();
 
 
         });
