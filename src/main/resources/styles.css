@@ -7,23 +7,23 @@
 }
 
 
-.toggle-button {
-    -fx-base: aqua;
-}
+/*.toggle-button {*/
+    /*-fx-base: aqua;*/
+/*}*/
 
-.ListSpinner{
-    -fx-base: aqua;
-}
+/*.ListSpinner{*/
+    /*-fx-base: aqua;*/
+/*}*/
 
-.add-button{
-    -fx-base:green;
-}
+/*.add-button{*/
+    /*-fx-base:green;*/
+/*}*/
 
-.update-button{
-    -fx-base:orange;
-}
+/*.update-button{*/
+    /*-fx-base:orange;*/
+/*}*/
 
-.delete-button{
-    -fx-base:red;
-}
+/*.delete-button{*/
+    /*-fx-base:red;*/
+/*}*/
 
