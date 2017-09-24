@@ -3,10 +3,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
-import jfxtras.internal.scene.control.skin.agenda.AgendaMonthSkin;
 import jfxtras.scene.control.agenda.Agenda;
+
 import java.net.URL;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -14,40 +13,33 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+
 import javafx.scene.control.TextArea;
 import jfxtras.scene.control.CalendarPicker;
 import jfxtras.scene.control.LocalTimeTextField;
-import org.hibernate.Session;
 
 
 /**
  * Created by gayashan on 9/14/2017.
  */
-public class AgendaController implements Initializable{
-
-    @FXML
-    private Agenda agenda;
-
-
-    @FXML
-    private CalendarPicker calander;
-
-    @FXML
-    private LocalTimeTextField startTime;
-
-    @FXML
-    private LocalTimeTextField endTime;
-
-    @FXML
-    private TextArea desctiption;
+public class AgendaController implements Initializable {
 
     AppointmentModel appointmentModel = new AppointmentModel();
+    @FXML
+    private Agenda agenda;
+    @FXML
+    private CalendarPicker calander;
+    @FXML
+    private LocalTimeTextField startTime;
+    @FXML
+    private LocalTimeTextField endTime;
+    @FXML
+    private TextArea desctiption;
 
 //    private List<> ;
 
     @FXML
     void addAppointment(ActionEvent event) {
-
 
 
         Date selected = calander.getCalendar().getTime();
@@ -59,17 +51,14 @@ public class AgendaController implements Initializable{
                 .withDescription(desctiption.getText())
                 .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group1"));
 
-                agenda.appointments().add(newAppointment);
-                appointmentModel.addNewAppointment(newAppointment);
-
+        agenda.appointments().add(newAppointment);
+        appointmentModel.addNewAppointment(newAppointment);
 
 
     }
 
     @FXML
     void deleteAppointment(ActionEvent event) {
-
-
 
 
     }
@@ -80,8 +69,7 @@ public class AgendaController implements Initializable{
     }
 
 
-
-    private void updateAppointment(Agenda.AppointmentImplLocal newAppointment){
+    private void updateAppointment(Agenda.AppointmentImplLocal newAppointment) {
 
 //        AppointmentEntity appointmentEntity ;
 //        appointmentEntity.setStartTime(Timestamp.valueOf(newAppointment.getStartLocalDateTime()));
@@ -109,24 +97,19 @@ public class AgendaController implements Initializable{
 //        );
 
 
-
-
 //        calander.getChildrenUnmodifiable().forEach(node -> node.setOnMouseClicked(event -> {
 //
 //            System.out.println("OK 234234");
 //        }));
 
 
-
         agenda.setAllowDragging(true);
         agenda.setAllowResize(true);
-        agenda.newAppointmentCallbackProperty().set( (localDateTimeRange) -> {
-            Agenda.AppointmentImplLocal appointmentImplLocal= new Agenda.AppointmentImplLocal()
+        agenda.newAppointmentCallbackProperty().set((localDateTimeRange) -> {
+            Agenda.AppointmentImplLocal appointmentImplLocal = new Agenda.AppointmentImplLocal()
                     .withStartLocalDateTime(localDateTimeRange.getStartLocalDateTime())
                     .withEndLocalDateTime(localDateTimeRange.getEndLocalDateTime())
                     .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group1"));
-
-            //System.out.println(appointmentImplLocal.getStartLocalDateTime().toLocalDate().toString());
 
 
             appointmentModel.addNewAppointment(appointmentImplLocal);
@@ -136,74 +119,31 @@ public class AgendaController implements Initializable{
         });
 
 
-//        agenda.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//
-////                if(event.getButton().equals(MouseButton.PRIMARY))
-////                    if(event.getSource().)
-//                System.out.println(event.getSource().toString());
-//            }
-//
-//
-//        });
+        calander.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
 
 
-
-        calander.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-//                if (event.getButton().equals(MouseButton.PRIMARY)) {
-//                    Calendar cal = calendarpicker.getCalendar();
-//                    if (cal != null) {
-//                        selectedDate = cal.getTime();
-//                        log.debug(String.format("(selectedDate): %s" , selectedDate));
-//                        log.debug(String.format("(displayed): %s" , calendarpicker.getDisplayedCalendar().getTime()));
-//                    }
-//                }
+            Date cal = calander.getCalendar().getTime();
+            LocalDate ld = cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
 
+            LocalTime lt = LocalTime.NOON;
 
-                Date cal = calander.getCalendar().getTime();
-                LocalDate ld = cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-               // LocalDate ld = LocalDate.of(2010,10,10);
-                LocalTime lt = LocalTime.NOON;
-
-                agenda.setDisplayedLocalDateTime(LocalDateTime.of(ld,lt));
-                System.out.println(agenda.getDisplayedLocalDateTime().toLocalDate().toString());
-
-                //Callback<Agenda.LocalDateTimeRange, Void> range = agenda.getLocalDateTimeRangeCallback();
+            agenda.setDisplayedLocalDateTime(LocalDateTime.of(ld, lt));
+            System.out.println(agenda.getDisplayedLocalDateTime().toLocalDate().toString());
 
 
-                agenda.localDateTimeRangeCallbackProperty().set(param ->{
+            agenda.localDateTimeRangeCallbackProperty().set(param -> {
+
+                        List<Agenda.AppointmentImplLocal> list = appointmentModel.getAppointments(param.getStartLocalDateTime(), param.getEndLocalDateTime());
+                        agenda.appointments().clear();
+                        agenda.appointments().addAll(list);
+
+                        return null;
+                    }
+
+            );
 
 
-                            List<AppointmentEntity> entityList =appointmentModel.getAppointments(param.getStartLocalDateTime(),param.getEndLocalDateTime());
-
-                            agenda.appointments().clear();
-
-                            for(AppointmentEntity entity:entityList){
-
-                                Agenda.AppointmentImplLocal appointmentImplLocal= new Agenda.AppointmentImplLocal()
-                                        .withStartLocalDateTime(entity.getStartTime().toLocalDateTime())
-                                        .withEndLocalDateTime(entity.getEndTime().toLocalDateTime())
-                                        .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group1"));
-                                appointmentImplLocal.setDescription(entity.getDescription());
-
-                                agenda.appointments().add(appointmentImplLocal);
-
-                            }
-
-
-                            return null;
-                }
-
-                );
-
-
-
-            }
         });
 //
 //        agenda.appointmentChangedCallbackProperty().set(param ->{
@@ -262,13 +202,7 @@ public class AgendaController implements Initializable{
 //      agenda.getEditAppointmentCallback();
 
 
-
-
 //        agenda.selectedAppointments().remove();
-
-
-
-
 
 
 //        agenda.actionCallback().set( (appointment) -> {
@@ -285,7 +219,6 @@ public class AgendaController implements Initializable{
 
 
     }
-
 
 
 }

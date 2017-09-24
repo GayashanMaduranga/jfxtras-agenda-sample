@@ -12,19 +12,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-//        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-//        primaryStage.setTitle("Hello World");
-//        primaryStage.setScene(new Scene(root, 300, 275));
-//        primaryStage.getIcons().add(new Image("/Images/Hospital-management-system.png"));
-//        primaryStage.show();
-
 
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/Agenda.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Welcome New Dispensary");
-//            primaryStage.getIcons().add(new Image("/Images/Hospital-management-system.png"));
+            primaryStage.setTitle("Agenda Sample");
             primaryStage.setMaximized(false);
             primaryStage.setMinHeight(715.0);
             primaryStage.setMinWidth(1299.0);

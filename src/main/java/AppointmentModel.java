@@ -1,10 +1,9 @@
 import jfxtras.scene.control.agenda.Agenda;
 import org.hibernate.Query;
 import org.hibernate.Session;
-
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +30,7 @@ public class AppointmentModel {
     }
 
 
-    public List<AppointmentEntity> getAppointments(LocalDateTime startTime,LocalDateTime endTime){
+    private List<AppointmentEntity> getAppointmentEntities(LocalDateTime startTime,LocalDateTime endTime){
 
 
         String hql = "FROM AppointmentEntity a where a.startTime between :startTime and :endTime";
@@ -43,5 +42,26 @@ public class AppointmentModel {
 
         List results = query.list();
         return results;
+    }
+
+    public List<Agenda.AppointmentImplLocal> getAppointments(LocalDateTime startTime,LocalDateTime endTime){
+        List<AppointmentEntity> entityList =getAppointmentEntities(startTime,endTime);
+        List<Agenda.AppointmentImplLocal> appointmentList = new ArrayList<>();
+
+
+
+        for(AppointmentEntity entity:entityList){
+
+            Agenda.AppointmentImplLocal appointmentImplLocal= new Agenda.AppointmentImplLocal()
+                    .withStartLocalDateTime(entity.getStartTime().toLocalDateTime())
+                    .withEndLocalDateTime(entity.getEndTime().toLocalDateTime())
+                    .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group1"));
+            appointmentImplLocal.setDescription(entity.getDescription());
+            appointmentList.add(appointmentImplLocal);
+
+
+        }
+
+        return appointmentList;
     }
 }
