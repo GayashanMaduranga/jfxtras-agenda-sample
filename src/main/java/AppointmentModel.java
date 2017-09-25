@@ -13,7 +13,7 @@ public class AppointmentModel {
 
     private static Session session = UserSession.getSession();
 
-    public void addNewAppointment(Agenda.AppointmentImplLocal newAppointment){
+    public int addNewAppointment(Agenda.AppointmentImplLocal newAppointment){
 
         AppointmentEntity appointmentEntity = new AppointmentEntity();
         appointmentEntity.setStartTime(Timestamp.valueOf(newAppointment.getStartLocalDateTime()));
@@ -26,6 +26,9 @@ public class AppointmentModel {
         session.beginTransaction();
         session.save(appointmentEntity);
         session.getTransaction().commit();
+
+        //returns generated id value
+        return appointmentEntity.getId();
 
     }
 

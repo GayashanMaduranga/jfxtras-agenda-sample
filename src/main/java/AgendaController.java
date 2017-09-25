@@ -35,11 +35,12 @@ public class AgendaController implements Initializable {
 
     private Appointment selectedAppointment;
 
-//    private List<> ;
 
     @FXML
     void addAppointment(ActionEvent event) {
 
+
+        int id;
 
         Date selected = calander.getCalendar().getTime();
         LocalDate date = selected.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -50,15 +51,26 @@ public class AgendaController implements Initializable {
                 .withDescription(desctiption.getText())
                 .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group1"));
 
-        agenda.appointments().add(newAppointment);
-        appointmentModel.addNewAppointment(newAppointment);
+        id = appointmentModel.addNewAppointment(newAppointment);
 
+        //System.out.println("ID ID :: " + id);
+        Appointment a = (Appointment)newAppointment;
+        a.setId(id);
+
+        System.out.println(a.getId() + "alsdfalsdkf");
+
+        agenda.appointments().add(a);
+        agenda.refresh();
+
+        updateAppointment();
 
     }
 
     @FXML
     void deleteAppointment(ActionEvent event) {
 
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n\n\n\n\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5");
+        System.out.println(selectedAppointment.getId());
         appointmentModel.deleteAppointment(selectedAppointment.getId());
         updateAgenda();
         agenda.refresh();
@@ -93,8 +105,7 @@ public class AgendaController implements Initializable {
 
     }
 
-    private void updateAgenda(){
-        //System.out.println("UP");
+    private void updateAgenda(){;
         agenda.localDateTimeRangeCallbackProperty().set(param -> {
 
 
@@ -121,15 +132,18 @@ public class AgendaController implements Initializable {
         agenda.setAllowDragging(true);
         agenda.setAllowResize(true);
         agenda.newAppointmentCallbackProperty().set((localDateTimeRange) -> {
-            Agenda.AppointmentImplLocal appointmentImplLocal = new Agenda.AppointmentImplLocal()
+            Agenda.AppointmentImplLocal appointmentImplLocal = new Appointment()
                     .withStartLocalDateTime(localDateTimeRange.getStartLocalDateTime())
                     .withEndLocalDateTime(localDateTimeRange.getEndLocalDateTime())
                     .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("group1"));
 
 
-            appointmentModel.addNewAppointment(appointmentImplLocal);
-            return appointmentImplLocal;
+            int id = appointmentModel.addNewAppointment(appointmentImplLocal);
 
+            Appointment a = (Appointment)appointmentImplLocal;
+            a.setId(id);
+
+            return a;
 
         });
 
