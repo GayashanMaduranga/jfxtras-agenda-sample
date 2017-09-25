@@ -10,7 +10,7 @@ import org.hibernate.service.ServiceRegistry;
  */
 public class UserSession {
 
-    public static Session getSession(){
+    public static Session getSession() {
 
         Configuration configuration = new Configuration().configure();
 

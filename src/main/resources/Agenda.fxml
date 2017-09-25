@@ -24,7 +24,7 @@
    </rowConstraints>
    <children>
       <Agenda fx:id="agenda" maxHeight="1.7976931348623157E308" prefWidth="645.0" scaleX="0.8" scaleY="0.8" GridPane.rowSpan="2" GridPane.vgrow="ALWAYS" />
-      <CalendarPicker fx:id="calander" maxHeight="500.0" maxWidth="500.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+      <CalendarPicker fx:id="calendar" maxHeight="500.0" maxWidth="500.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </GridPane.margin>
@@ -45,7 +45,7 @@
             <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Start time" />
             <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="End time" GridPane.rowIndex="1" />
             <LocalTimeTextField fx:id="endTime" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="End Time" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextArea fx:id="desctiption" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="186.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextArea fx:id="description" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="186.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="103.0" text="Description" GridPane.rowIndex="2" />
             <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnSpan="2" GridPane.rowIndex="3">
                <children>
